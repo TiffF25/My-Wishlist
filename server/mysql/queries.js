@@ -34,8 +34,31 @@ function deleteUser(username) {
   });
 }
 
+function getAllUsers(callback) {
+  con.connect(function (err) {
+    if (err) throw err;
+    const sql = "SELECT * FROM Users";
+    con.query(sql, function (err, results) {
+      if (err) throw err;
+
+      // Convert the results to a JSON array
+      const jsonArray = JSON.stringify(results);
+
+      console.log("Users retrieved as JSON array:");
+      console.log(jsonArray);
+
+      if (callback) {
+        callback(jsonArray); // Pass the JSON array to a callback function if provided
+      }
+
+      return jsonArray;
+    });
+  });
+}
+
 // createNewUser("myUser3", "myDisplayName3", "myPassword3", "myEmail3");
 // deleteUser("username")
+// getAllUsers();
 
 con.connect(function(err) {
     con.end(); 
