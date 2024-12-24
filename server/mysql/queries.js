@@ -13,21 +13,31 @@ con.connect(function(err) {
 
 });
 
-// con.connect(function(err) {
-//     var sql = "INSERT INTO Users (username, displayName, password_, email)\
-//      VALUES ('myUser', 'myDisplayName', 'myPassword', 'myEmail')";
-//     con.query(sql, function (err, result) {
-//       if (err) throw err;
-//       console.log("1 record inserted");
-//     });
-// });
+function createNewUser(username, displayName, password, email) {
+  con.connect(function(err) {
+      var sql = `INSERT INTO Users (username, displayName, password_, email)\
+      VALUES (${con.escape(username)},${con.escape(displayName)},${con.escape(password,)},${con.escape(email)})`;
+      con.query(sql, function (err, result) {
+        if (err) throw err;
+        console.log("1 record inserted");
+      });
+  });
+}
+
+function deleteUser(username) {
+  con.connect(function(err) {
+      var sql = `DELETE FROM Users WHERE username=${con.escape(username)}`;
+      con.query(sql, function (err, result) {
+        if (err) throw err;
+        console.log("1 record removed");
+      });
+  });
+}
+
+// createNewUser("myUser3", "myDisplayName3", "myPassword3", "myEmail3");
+// deleteUser("username")
 
 con.connect(function(err) {
-  if (err) throw err;
-  con.query("SELECT * FROM Users", function (err, result, fields) {
-    if (err) throw err;
-    console.log(result);
-
     con.end(); 
-  });
+    console.log("Connection terminated.");
 });
